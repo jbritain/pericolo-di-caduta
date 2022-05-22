@@ -12,10 +12,13 @@
   "dependencies": {
     "dotenv": "^16.0.0",
     "express": "^4.18.1",
+    "express-password-protect": "^1.0.2",
     "is-port-reachable": "^4.0.0",
+    "liquidjs": "^9.37.0",
     "node-nmap": "^4.0.0",
     "portfinder": "^1.0.28",
     "pug": "^3.0.2",
+    "serve-index": "^1.9.1",
     "sudo-js": "^1.0.2",
     "sudo-prompt": "^9.2.1"
   }

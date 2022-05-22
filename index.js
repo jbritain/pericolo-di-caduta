@@ -1,14 +1,17 @@
 const express = require("express");
 const path = require('path');
 const os = require('os');
-const router = express.Router();
+//const router = express.Router();
 const sudo = require('sudo-js');
 const fs = require('fs');
 const res = require("express/lib/response");
+const serveIndex = require('serve-index');
 require('dotenv').config();
 
-sudo.setPassword(process.env.ROOT_PWD);
+sudo.setPassword(process.env.ROOT_PWD); // this is very stupid
 var restartPwd = process.env.RESTART_PWD;
+
+var backupLocation = process.env.BACKUP_LOCATION;
 
 var app = express();
 
@@ -32,12 +35,11 @@ function cmd(command){
 
 console.log("Pericolo Di Caduta - Server Console")
 
-router.get('/', function(req, res) {
-
-    res.sendFile(path.join(__dirname, "/index.html"));
+app.get('/', function(req, res) {
+    res.sendFile(path.join(__dirname, "public/index.html"));
 });
 
-router.post('/restart', function(req, res) {
+app.post('/restart', function(req, res) {
     if(req.get("password") == restartPwd){
         console.log("Restarting Minecraft Server...")
         console.log()
@@ -49,7 +51,7 @@ router.post('/restart', function(req, res) {
     }
 });
 
-router.get('/status', function(req, res) {
+app.get('/status', function(req, res) {
     fs.readFile('../state', 'utf8', (err, state) => {
         if (err) {
           console.error(err);
@@ -60,11 +62,15 @@ router.get('/status', function(req, res) {
     
 });
 
-router.get('/uptime', function(req, res) {
+app.get('/uptime', function(req, res) {
     var uptime = os.uptime();
 
     res.send(sec2time(uptime));
 });
 
-app.use("/", router)
+app.use(express.static('public'));
+app.use('/backups', express.static(backupLocation), 
+serveIndex(backupLocation, { 'icons': true}))
+
+//app.use("/", router)
 app.listen(8080);
