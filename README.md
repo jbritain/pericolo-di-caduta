@@ -9,5 +9,6 @@ This is a small web app which runs on the same host as a Minecraft server. Prett
   ```
 
 - Change any mentions of the word `joshua` in any of the files to your own username
+- Reverse engineer what the other scripts mentioned do because I'm lazy
 
 I have no idea if this works on Windows. I created and tested it on Ubuntu server. Please don't use this.
